@@ -8,11 +8,9 @@ import javax.validation.Valid;
 
 @RestController
 public class EmailController {
-
     @RequestMapping(value = "/myEmail", method = RequestMethod.POST)
     public MyEmail email(@RequestBody @Valid MyEmail myEmail) {
-        // html parsing
-        Document doc = Jsoup.parse(myEmail.getBody());
+
 
         return myEmail; //Send the response to the HTTP Client
     }

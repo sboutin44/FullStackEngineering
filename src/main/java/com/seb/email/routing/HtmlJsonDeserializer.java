@@ -9,6 +9,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 
 public class HtmlJsonDeserializer extends JsonDeserializer<String> {
+
     @Override
     public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         String html = jp.getText(); // Parse the json as a string,

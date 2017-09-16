@@ -1,11 +1,13 @@
 package com.seb.email.routing;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import javax.validation.Valid;
 
 public class MyEmail {
@@ -30,6 +32,7 @@ public class MyEmail {
     private String subject;
 
     @NotBlank
+    @JsonDeserialize(using = HtmlJsonDeserializer.class)
     private String body;
 
     public String getTo() {

@@ -10,19 +10,26 @@ import javax.validation.Valid;
 
 public class MyEmail {
 
+    @NotBlank
     @Email
     private String to;
 
+    @NotBlank
     @JsonProperty("to_name")
     private String toName;
 
+    @NotBlank
+    @Email
     private String from;
 
-    @JsonProperty("from_Name")
+    @NotBlank
+    @JsonProperty("from_name")
     private String fromName;
 
+    @NotBlank
     private String subject;
 
+    @NotBlank
     private String body;
 
     public String getTo() {

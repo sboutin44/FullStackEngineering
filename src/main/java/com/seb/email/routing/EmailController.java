@@ -7,7 +7,7 @@ import javax.validation.Valid;
 public class EmailController {
 
     @RequestMapping(value = "/myEmail", method = RequestMethod.POST)
-    public MyEmail email(@RequestBody MyEmail myEmail) {
+    public MyEmail email(@RequestBody @Valid MyEmail myEmail) {
         return myEmail;
     }
 }

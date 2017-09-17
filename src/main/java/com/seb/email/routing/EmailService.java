@@ -1,16 +1,19 @@
 package com.seb.email.routing;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.MediaType;
 
 import java.net.URI;
 import java.util.Base64;
+
+import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 
 @Service
 public class EmailService {
@@ -18,38 +21,46 @@ public class EmailService {
         //mailgun
         private final String MAILGUN_USERNAME = "api";
         private final String MAILGUN_API_KEY = "key-13b5c4c1ac6418806aa1d263beab8456";
-        private final String MAILGUN_TOKEN = Base64.getEncoder().encodeToString(MAILGUN_API_KEY.getBytes());
+        private final String MAILGUN_TOKEN = Base64.getEncoder().encodeToString((MAILGUN_USERNAME + ":" + MAILGUN_API_KEY).getBytes());
         private final String MAILGUN_DOMAIN = "sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org";
         private final String MAILGUN_URL = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
+
 
         private final String SENDINBLUE_API_KEY = "BfkK0wPT1SODqFxN";
         private final String SENDINBLUE_DOMAIN = "";
 
         private RestTemplate restTemplate;
 
-        public URI SendMessageViaMAILGUN (MyEmail email){
+        public void SendMessageViaMAILGUN (MyEmail email){
+
+            restTemplate = new RestTemplate();
             RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-
-            //restTemplateBuilder.basicAuthorization(MAILGUN_USERNAME,MAILGUN_API_KEY);
-            this.restTemplate = restTemplateBuilder.build();
-
+            restTemplateBuilder.basicAuthorization(MAILGUN_USERNAME,MAILGUN_API_KEY);
+            restTemplate = restTemplateBuilder.build();
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(httpHeaders.AUTHORIZATION,"Basic" +  MAILGUN_TOKEN);
+            httpHeaders.add(httpHeaders.AUTHORIZATION,"Basic " + MAILGUN_TOKEN);
 
-            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String,String> body = new LinkedMultiValueMap<String,String>();
 
             // Formatting the http body
-            body.add("from","mailgun@" + MAILGUN_DOMAIN);
+/*            body.add("from","mailgun@" + MAILGUN_DOMAIN);
             body.add("to",email.getTo());
             body.add("subject",email.getSubject());
             body.add("text",email.getBody());
+*/
+            body.add("from","Excited User <mailgun@sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org>");
+            body.add("to","sboutin44@me.com");
+            body.add("subject","Hello");
+            body.add("text","Testing some Mailgun awesomness!");
 
-            HttpEntity<String> entity = new HttpEntity<String>(body.toString(), httpHeaders);
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, httpHeaders);
 
-            URI location = restTemplate.postForLocation(MAILGUN_URL, entity);
-
-            return location;
+            //return restTemplate.postForLocation(MAILGUN_URL, entity);
+            ResponseEntity<String> response = restTemplate.postForEntity(MAILGUN_URL, request, String.class);
+            //restTemplate.exchange(MAILGUN_URL, HttpMethod.POST, entity, String.class);
+            HttpStatus HttpStatus = response.getStatusCode();
         }
 }

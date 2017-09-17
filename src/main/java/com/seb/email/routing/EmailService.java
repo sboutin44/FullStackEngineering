@@ -31,36 +31,33 @@ public class EmailService {
 
         private RestTemplate restTemplate;
 
-        public void SendMessageViaMAILGUN (MyEmail email){
-
+        public void SendMessageViaMAILGUN (MyEmail email)
+        {
             restTemplate = new RestTemplate();
             RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
             restTemplateBuilder.basicAuthorization(MAILGUN_USERNAME,MAILGUN_API_KEY);
             restTemplate = restTemplateBuilder.build();
+
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(httpHeaders.AUTHORIZATION,"Basic " + MAILGUN_TOKEN);
 
-//            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            //httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             httpHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             MultiValueMap<String,String> body = new LinkedMultiValueMap<String,String>();
 
             // Formatting the http body
-/*            body.add("from","mailgun@" + MAILGUN_DOMAIN);
+            body.add("from",email.getFrom());
             body.add("to",email.getTo());
             body.add("subject",email.getSubject());
             body.add("text",email.getBody());
-*/
-            body.add("from","Excited User <mailgun@sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org>");
-            body.add("to","sboutin44@me.com");
-            body.add("subject","Hello");
-            body.add("text","Testing some Mailgun awesomness!");
 
             HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, httpHeaders);
 
-            //return restTemplate.postForLocation(MAILGUN_URL, entity);
             ResponseEntity<String> response = restTemplate.postForEntity(MAILGUN_URL, request, String.class);
-            //restTemplate.exchange(MAILGUN_URL, HttpMethod.POST, entity, String.class);
             HttpStatus HttpStatus = response.getStatusCode();
+
         }
+
+
 }

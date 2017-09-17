@@ -1,8 +1,8 @@
 {
-"to": "fake@example.com",
+"to": "seb.boutin44@gmail.com",
 "to_name": "Mr. Fake",
-"from": "noreply@mybrightwheel.com",
-"from_name": "Brightwheel",
+"from": "sboutin44@me.com",
+"from_name": "Seb",
 "subject": "A Message from Brightwheel",
 "body": "<h1>Your Bill</h1><p>$10</p>"
 }

@@ -11,7 +11,10 @@ public class EmailController {
     @RequestMapping(value = "/myEmail", method = RequestMethod.POST)
     public MyEmail email(@RequestBody @Valid MyEmail myEmail) {
         EmailService emailService = new EmailService();
+
         emailService.SendMessageViaMAILGUN(myEmail);
+
+
 
         return myEmail; //Send the response to the HTTP Client
     }

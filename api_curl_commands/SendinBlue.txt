@@ -1,0 +1,31 @@
+curl -H 'api-key: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' \ 
+-X POST -d '{ \
+
+# Define the campaign settings \
+"name":"Campaign sent via the API", \
+"subject":"My subject", \
+"sender": { "name": "From name", "email":"sboutin44@me.com" }, \
+"type": "classic", \
+
+# Content that will be sent \
+"htmlContent":"Congratulations ! You successfully sent this example campaign via the SendinBlue API.", \
+
+# Select the recipients\
+"recipients": { "seb.boutin44@gmail.com" } \
+}' 
+'https://api.sendinblue.com/v3/emailCampaigns'
+
+
+curl -s --user 'api-key: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 \
+    https://api.sendinblue.com/v3/emailCampaigns \
+    -F from='Excited User <mailgun@sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org>' \
+    -F to=sboutin44@me.com \
+    -F to=seb.boutin44@gmail.com \
+    -F subject='Hello' \
+    -F text='Testing some Mailgun awesomness!'
+
+
+curl -X POST 'https://api.sendinblue.com/v3/contacts'\
+-H 'content-type: application/json'\ 
+-H 'api-key: xkeysib-xxxx'\
+-d '{"email":"john@doe.com"}'

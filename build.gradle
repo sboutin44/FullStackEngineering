@@ -26,7 +26,15 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+
+    // https://mvnrepository.com/artifact/org.json/json
+    compile group: 'org.json', name: 'json', version: '20160810'
+
     // jsoup HTML parser library @ https://jsoup.org/
     compile 'org.jsoup:jsoup:1.10.3'
+
+    // https://mvnrepository.com/artifact/javax.json/javax.json-api
+    compile group: 'javax.json', name: 'javax.json-api', version: '1.0-b01'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -19,6 +19,11 @@ import java.util.Base64;
 @Service
 public class EmailService {
 
+    public enum Provider {
+        MAILGUN,
+        ELASTICEMAIL
+    }
+
     /* mailgun */
     private final String MAILGUN_USERNAME = "api";
     private final String MAILGUN_API_KEY = "key-13b5c4c1ac6418806aa1d263beab8456";
@@ -41,9 +46,22 @@ public class EmailService {
     private RestTemplate restTemplate;
 
 
-    //public Send ( )
+    public HttpStatus Send(MyEmail email, Provider provider) throws UnsupportedEncodingException {
+        HttpStatus httpStatus;
 
-    public void SendMessageViaMAILGUN(MyEmail email) {
+        if (provider == Provider.MAILGUN) {
+            //CheckStatus(MAILGUN)
+            httpStatus = SendMessageViaMAILGUN(email);
+        } else {
+            //ElasticEmail
+            //CheckStatus(MAILGUN)
+            httpStatus = SendMessageViaElasticEmail(email);
+        }
+
+        return httpStatus;
+    }
+
+    public HttpStatus SendMessageViaMAILGUN(MyEmail email) {
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -62,51 +80,13 @@ public class EmailService {
 
         /* Send the request to email service provider */
         ResponseEntity<String> response = restTemplate.postForEntity(MAILGUN_URL, request, String.class);
-        HttpStatus HttpStatus = response.getStatusCode();
+        HttpStatus httpStatus = response.getStatusCode();
+        return httpStatus;
     }
 
-    public void SendMessageViaSPARKPOST(MyEmail email) throws JSONException {
-        restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
+    public HttpStatus SendMessageViaElasticEmail(MyEmail email) throws UnsupportedEncodingException {
 
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.add(httpHeaders.AUTHORIZATION, SPARKPOST_TOKEN);
-
-        /* For SPARKPOST the data are send through a Json file */
-        JSONObject jsonFileToSend = new JSONObject();
-        JSONObject options = new JSONObject();
-        JSONObject content = new JSONObject();
-        JSONObject recipients = new JSONObject();
-        JSONObject contentValue = new JSONObject();
-
-        options.put("sandbox", "true");
-        contentValue.put("from", email.getFrom());
-        contentValue.put("subject", email.getSubject());
-        contentValue.put("text", email.getBody());
-        content.put("content", contentValue);
-        recipients.put("address", email.getTo());
-
-        jsonFileToSend.put("options", options);
-        jsonFileToSend.put("content", content);
-        jsonFileToSend.put("recipients", new JSONArray(recipients));
-
-        HttpEntity<JSONObject> request = new HttpEntity<>(jsonFileToSend, httpHeaders);
-
-        // Send the request to email service provider
-        ResponseEntity<String> response = restTemplate.postForEntity(SPARKPOST_URL, request, String.class);
-        HttpStatus HttpStatus = response.getStatusCode();
-    }
-
-    public void SendMessageViaElasticEmail(MyEmail email) throws JSONException, UnsupportedEncodingException {
-
-        String apiKey = ELASTICEMAIL_API_KEY;
-        String from = email.getFrom();
-        String fromName = email.getFromName();
-        //String subject = email.;
-        String body = "coucou sebastien";
-        String to = "seb.boutin44@gmail.com";
         String isTransactional = "true";
-
         String encoding = "UTF-8";
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -125,42 +105,8 @@ public class EmailService {
 
         // Send the request to email service provider
         ResponseEntity<String> response = restTemplate.postForEntity(ELASTICEMAIL_URL, request, String.class);
-        HttpStatus HttpStatus = response.getStatusCode();
-    }
-
-    public String SendTest(MyEmail email) throws IOException {
-
-        String userName = "sboutin";
-        String apiKey = ELASTICEMAIL_API_KEY;
-        String from = "sboutin44@me.com";
-        String fromName = "Sebastien";
-        String subject = "Test";
-        String body = "coucou sebastien";
-        String to = "seb.boutin44@gmail.com";
-        String isTransactional = "true";
-
-        String encoding = "UTF-8";
-
-        String content = "apikey=" + URLEncoder.encode(apiKey, encoding);
-        content += "&from=" + URLEncoder.encode(from, encoding);
-        content += "&fromName=" + URLEncoder.encode(fromName, encoding);
-        content += "&subject=" + URLEncoder.encode(subject, encoding);
-        content += "&bodyHtml=" + URLEncoder.encode(body, encoding);
-        content += "&to=" + URLEncoder.encode(to, encoding);
-        content += "&isTransactional=" + URLEncoder.encode(isTransactional, encoding);
-
-        URL url = new URL(ELASTICEMAIL_URL);
-        URLConnection conn = url.openConnection();
-        conn.setDoOutput(true);
-        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-        wr.write(content);
-        wr.flush();
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String result = rd.readLine();
-        wr.close();
-        rd.close();
-
-        return result;
+        HttpStatus httpStatus = response.getStatusCode();
+        return httpStatus;
     }
 
     public String SendTest2(MyEmail email) throws IOException {

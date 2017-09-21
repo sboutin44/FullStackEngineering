@@ -16,7 +16,8 @@ public class EmailController {
 
         //emailService.SendMessageViaMAILGUN(myEmail);
         //emailService.SendMessageViaSPARKPOST(myEmail);
-        emailService.SendTest(myEmail);
+        //emailService.SendTest(myEmail);
+        emailService.SendMessageViaElasticEmail(myEmail);
 
         return myEmail; //Send the response to the HTTP Client
     }

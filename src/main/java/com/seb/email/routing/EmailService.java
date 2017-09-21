@@ -96,21 +96,74 @@ public class EmailService {
         HttpStatus HttpStatus = response.getStatusCode();
     }
 
-    public void SendMessageViaElasticEmail(MyEmail email) throws JSONException {
+    public void SendMessageViaElasticEmail(MyEmail email) throws JSONException, UnsupportedEncodingException {
+
+        String userName = "sboutin";
+        String apiKey = ELASTICEMAIL_API_KEY;
+        String from = "sboutin44@me.com";
+        String fromName = "Sebastien";
+        String subject = "Test";
+        String body = "coucou sebastien";
+        String to = "seb.boutin44@gmail.com";
+        String isTransactional = "true";
+
+        String encoding = "UTF-8";
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        String requestBody = "https://api.elasticemail.com/v2/email/send?" +
-                "apikey=3555985e-6969-4491-be44-2873ba689636" + "&" +
-                "subject=Test&from=sboutin44@me.com&" +
-                "fromName=moi&sender=&senderName=&msgFrom=&msgFromName=&replyTo=&replyToName=&to=&msgTo=&msgCC=&msgBcc=&lists=&segments=&mergeSourceFilename=&channel=&bodyHtml=&bodyText=&charset=&charsetBodyHtml=&charsetBodyText=&encodingType=&template=&headers_firstname=firstname: myValueHere&postBack=&merge_firstname=John&timeOffSetMinutes=&poolName=My Custom Pool&isTransactional=false";
-        HttpEntity<String> request = new HttpEntity<>(requestBody, httpHeaders);
+        String content = "apikey=" + URLEncoder.encode(apiKey, encoding);
+        content += "&from=" + URLEncoder.encode(from, encoding);
+        content += "&fromName=" + URLEncoder.encode(fromName, encoding);
+        content += "&subject=" + URLEncoder.encode(subject, encoding);
+        content += "&bodyHtml=" + URLEncoder.encode(body, encoding);
+        content += "&to=" + URLEncoder.encode(to, encoding);
+        content += "&isTransactional=" + URLEncoder.encode(isTransactional, encoding);
 
+        HttpEntity<String> request = new HttpEntity<>(content, httpHeaders);
+
+        // Send the request to email service provider
+        ResponseEntity<String> response = restTemplate.postForEntity(ELASTICEMAIL_URL, request, String.class);
+        HttpStatus HttpStatus = response.getStatusCode();
     }
 
     public String SendTest(MyEmail email) throws IOException {
+
+        String userName = "sboutin";
+        String apiKey = ELASTICEMAIL_API_KEY;
+        String from = "sboutin44@me.com";
+        String fromName = "Sebastien";
+        String subject = "Test";
+        String body = "coucou sebastien";
+        String to = "seb.boutin44@gmail.com";
+        String isTransactional = "true";
+
+        String encoding = "UTF-8";
+
+        String content = "apikey=" + URLEncoder.encode(apiKey, encoding);
+        content += "&from=" + URLEncoder.encode(from, encoding);
+        content += "&fromName=" + URLEncoder.encode(fromName, encoding);
+        content += "&subject=" + URLEncoder.encode(subject, encoding);
+        content += "&bodyHtml=" + URLEncoder.encode(body, encoding);
+        content += "&to=" + URLEncoder.encode(to, encoding);
+        content += "&isTransactional=" + URLEncoder.encode(isTransactional, encoding);
+
+        URL url = new URL(ELASTICEMAIL_URL);
+        URLConnection conn = url.openConnection();
+        conn.setDoOutput(true);
+        OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+        wr.write(content);
+        wr.flush();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String result = rd.readLine();
+        wr.close();
+        rd.close();
+
+        return result;
+    }
+
+    public String SendTest2(MyEmail email) throws IOException {
 
         String userName = "sboutin";
         String apiKey = ELASTICEMAIL_API_KEY;

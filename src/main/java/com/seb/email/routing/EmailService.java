@@ -4,7 +4,6 @@ package com.seb.email.routing;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,7 +11,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -41,6 +39,9 @@ public class EmailService {
 
 
     private RestTemplate restTemplate;
+
+
+    //public Send ( )
 
     public void SendMessageViaMAILGUN(MyEmail email) {
         restTemplate = new RestTemplate();
@@ -98,11 +99,10 @@ public class EmailService {
 
     public void SendMessageViaElasticEmail(MyEmail email) throws JSONException, UnsupportedEncodingException {
 
-        String userName = "sboutin";
         String apiKey = ELASTICEMAIL_API_KEY;
-        String from = "sboutin44@me.com";
-        String fromName = "Sebastien";
-        String subject = "Test";
+        String from = email.getFrom();
+        String fromName = email.getFromName();
+        //String subject = email.;
         String body = "coucou sebastien";
         String to = "seb.boutin44@gmail.com";
         String isTransactional = "true";
@@ -113,12 +113,12 @@ public class EmailService {
 
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        String content = "apikey=" + URLEncoder.encode(apiKey, encoding);
-        content += "&from=" + URLEncoder.encode(from, encoding);
-        content += "&fromName=" + URLEncoder.encode(fromName, encoding);
-        content += "&subject=" + URLEncoder.encode(subject, encoding);
-        content += "&bodyHtml=" + URLEncoder.encode(body, encoding);
-        content += "&to=" + URLEncoder.encode(to, encoding);
+        String content = "apikey=" + URLEncoder.encode(ELASTICEMAIL_API_KEY, encoding);
+        content += "&from=" + URLEncoder.encode(email.getFrom(), encoding);
+        content += "&fromName=" + URLEncoder.encode(email.getFromName(), encoding);
+        content += "&subject=" + URLEncoder.encode(email.getSubject(), encoding);
+        content += "&bodyHtml=" + URLEncoder.encode(email.getBody(), encoding);
+        content += "&to=" + URLEncoder.encode(email.getTo(), encoding);
         content += "&isTransactional=" + URLEncoder.encode(isTransactional, encoding);
 
         HttpEntity<String> request = new HttpEntity<>(content, httpHeaders);

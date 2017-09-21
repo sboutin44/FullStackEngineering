@@ -26,20 +26,20 @@ public class EmailService {
 
     /* mailgun */
     private final String MAILGUN_USERNAME = "api";
-    private final String MAILGUN_API_KEY = "key-13b5c4c1ac6418806aa1d263beab8456";
+    private final String MAILGUN_API_KEY = "key-19bec70f90e27e8e5e87dbe94d16e6ff";
     private final String MAILGUN_TOKEN = Base64.getEncoder().encodeToString((MAILGUN_USERNAME + ":" + MAILGUN_API_KEY).getBytes());
     private final String MAILGUN_DOMAIN = "sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org";
     private final String MAILGUN_URL = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
 
     /* SPARKPOST */
-    private final String SPARKPOST_API_KEY = "cf9a6bdc909a4c06fdd9f8cb7c1c2ae77397e63a";
+    private final String SPARKPOST_API_KEY = "6994d7d60486eb9fa983018c5a6c6fb3375cbc5a";
     private final String SPARKPOST_TOKEN = Base64.getEncoder().encodeToString(SPARKPOST_API_KEY.getBytes());
     private final String SPARKPOST_URL = "https://api.sparkpost.com/api/v1/transmissions";
 
     /* ElasticEmail */
     private final String ELASTICEMAIL_USERNAME = null;
     private final String ELASTICEMAIL_URL = "https://api.elasticemail.com/v2/email/send";
-    private final String ELASTICEMAIL_API_KEY = "3555985e-6969-4491-be44-2873ba689636";
+    private final String ELASTICEMAIL_API_KEY = "6e9b7aab-4e2d-4c7a-be98-2562b2575340";
     private final String ELASTICEMAIL_TOKEN = Base64.getEncoder().encodeToString(ELASTICEMAIL_API_KEY.getBytes());
 
 

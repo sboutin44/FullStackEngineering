@@ -53,10 +53,4 @@ public class MyEmail {
         return body;
     }
 
-
-//    public String SendEmailToMailGun(){
-//
-//
-//    }
-
 }

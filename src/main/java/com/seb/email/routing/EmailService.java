@@ -1,15 +1,10 @@
 package com.seb.email.routing;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -26,20 +21,21 @@ public class EmailService {
 
     /* mailgun */
     private final String MAILGUN_USERNAME = "api";
-    private final String MAILGUN_API_KEY = "key-19bec70f90e27e8e5e87dbe94d16e6ff";
-    private final String MAILGUN_TOKEN = Base64.getEncoder().encodeToString((MAILGUN_USERNAME + ":" + MAILGUN_API_KEY).getBytes());
-    private final String MAILGUN_DOMAIN = "sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org";
-    private final String MAILGUN_URL = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
-
-    /* SPARKPOST */
-    private final String SPARKPOST_API_KEY = "6994d7d60486eb9fa983018c5a6c6fb3375cbc5a";
-    private final String SPARKPOST_TOKEN = Base64.getEncoder().encodeToString(SPARKPOST_API_KEY.getBytes());
-    private final String SPARKPOST_URL = "https://api.sparkpost.com/api/v1/transmissions";
+    private final String MAILGUN_API_KEY = "key-" + Keys.MAILGUN_API_KEY_RAW;
+    private final String MAILGUN_TOKEN =
+            Base64.getEncoder().encodeToString((MAILGUN_USERNAME + ":" + MAILGUN_API_KEY).getBytes());
+    private final String MAILGUN_URL =
+            "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
 
     /* ElasticEmail */
-    private final String ELASTICEMAIL_USERNAME = null;
     private final String ELASTICEMAIL_URL = "https://api.elasticemail.com/v2/email/send";
-    private final String ELASTICEMAIL_API_KEY = "6e9b7aab-4e2d-4c7a-be98-2562b2575340";
+    private final String ELASTICEMAIL_API_KEY =
+            Keys.ELASTICEMAIL_API_KEY_RAW.substring(0, 8) +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(9, 13) +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(14, 18) +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(19, 23) +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(24);
+
     private final String ELASTICEMAIL_TOKEN = Base64.getEncoder().encodeToString(ELASTICEMAIL_API_KEY.getBytes());
 
 
@@ -48,6 +44,7 @@ public class EmailService {
 
     public HttpStatus Send(MyEmail email, Provider provider) throws UnsupportedEncodingException {
         HttpStatus httpStatus;
+
 
         if (provider == Provider.MAILGUN) {
             //CheckStatus(MAILGUN)
@@ -60,6 +57,7 @@ public class EmailService {
 
         return httpStatus;
     }
+
 
     public HttpStatus SendMessageViaMAILGUN(MyEmail email) {
         restTemplate = new RestTemplate();

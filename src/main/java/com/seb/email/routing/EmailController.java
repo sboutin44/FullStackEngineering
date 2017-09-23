@@ -13,12 +13,7 @@ public class EmailController {
          *
          */
 
-        EmailService emailService = new EmailService();
-        EmailService.Provider emailServiceProvider = EmailService.Provider.ELASTICEMAIL;
-
         EmailServiceProvider provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
-
-        // Send myEmail POST request
         provider.send(myEmail);
 
         //Send the response to the HTTP Client

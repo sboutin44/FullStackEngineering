@@ -25,6 +25,7 @@ public class MyEmail {
     @NotBlank
     private String subject;
 
+
     @NotBlank
     @JsonDeserialize(using = HtmlJsonDeserializer.class)
     private String body;

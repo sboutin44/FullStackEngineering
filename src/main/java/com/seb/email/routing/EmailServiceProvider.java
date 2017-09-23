@@ -41,7 +41,6 @@ public class EmailServiceProvider {
     }
 
     public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
-        //Providers selectedProvider = this.getProvider();
         HttpStatus status = null;
 
         if (provider == Providers.MAILGUN) {
@@ -126,7 +125,7 @@ public class EmailServiceProvider {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<String, String>();
 
         /* Formatting the http body */
-        body.add("from", email.getFrom());
+        body.add("from", email.getFromName() + "<" + email.getFrom() + ">");
         body.add("to", email.getTo());
         body.add("subject", email.getSubject());
         body.add("text", email.getBody());

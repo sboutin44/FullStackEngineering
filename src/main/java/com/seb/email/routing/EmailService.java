@@ -1,10 +1,13 @@
 package com.seb.email.routing;
 
+import org.jsoup.HttpStatusException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -19,7 +22,7 @@ public class EmailService {
         ELASTICEMAIL
     }
 
-    /* mailgun */
+    /* mailgun config */
     private final String MAILGUN_USERNAME = "api";
     private final String MAILGUN_API_KEY = "key-" + Keys.MAILGUN_API_KEY_RAW;
     private final String MAILGUN_TOKEN =
@@ -27,7 +30,7 @@ public class EmailService {
     private final String MAILGUN_URL =
             "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
 
-    /* ElasticEmail */
+    /* ElasticEmail config */
     private final String ELASTICEMAIL_URL = "https://api.elasticemail.com/v2/email/send";
     private final String ELASTICEMAIL_API_KEY =
             Keys.ELASTICEMAIL_API_KEY_RAW.substring(0, 8) + "-" +
@@ -36,30 +39,16 @@ public class EmailService {
                     Keys.ELASTICEMAIL_API_KEY_RAW.substring(16,20) + "-" +
                     Keys.ELASTICEMAIL_API_KEY_RAW.substring(20);
 
-    private final String ELASTICEMAIL_TOKEN = Base64.getEncoder().encodeToString(ELASTICEMAIL_API_KEY.getBytes());
-
-
     private RestTemplate restTemplate;
 
 
-    public HttpStatus Send(MyEmail email, Provider provider) throws UnsupportedEncodingException {
-        HttpStatus httpStatus;
 
 
-        if (provider == Provider.MAILGUN) {
-            //CheckStatus(MAILGUN)
-            httpStatus = SendMessageViaMAILGUN(email);
-        } else {
-            //ElasticEmail
-            //CheckStatus(MAILGUN)
-            httpStatus = SendMessageViaElasticEmail(email);
-        }
+    private void switchProvider ( ){
 
-        return httpStatus;
     }
 
-
-    public HttpStatus SendMessageViaMAILGUN(MyEmail email) {
+    public HttpStatus SendMessageViaMAILGUN(MyEmail email)  {
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -82,15 +71,34 @@ public class EmailService {
         return httpStatus;
     }
 
+    public HttpStatus SendMessageViaMAILGUN_urlencoded(MyEmail email) throws UnsupportedEncodingException {
+        restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        String encoding = "UTF-8";
+        String content = "key=" + URLEncoder.encode(Keys.MAILGUN_API_KEY_RAW, encoding);
+        content += "&from=" + URLEncoder.encode(email.getFrom(), encoding);
+        content += "&fromName=" + URLEncoder.encode(email.getFromName(), encoding);
+        content += "&subject=" + URLEncoder.encode(email.getSubject(), encoding);
+        content += "&bodyHtml=" + URLEncoder.encode(email.getBody(), encoding);
+        content += "&to=" + URLEncoder.encode(email.getTo(), encoding);
+
+        HttpEntity<String> request = new HttpEntity<>(content, httpHeaders);
+
+        // Send the request to email service provide
+        ResponseEntity<String> response = restTemplate.postForEntity(MAILGUN_URL, request, String.class);
+        HttpStatus httpStatus = response.getStatusCode();
+        return httpStatus;
+    }
+
     public HttpStatus SendMessageViaElasticEmail(MyEmail email) throws UnsupportedEncodingException {
+        restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         String isTransactional = "true";
         String encoding = "UTF-8";
-        restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-
-        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
         String content = "apikey=" + URLEncoder.encode(ELASTICEMAIL_API_KEY, encoding);
         content += "&from=" + URLEncoder.encode(email.getFrom(), encoding);
         content += "&fromName=" + URLEncoder.encode(email.getFromName(), encoding);

@@ -29,7 +29,7 @@ public class EmailServiceProvider {
 
     // Constructor
     public EmailServiceProvider(Providers providerName) {
-        provider = providerName;
+        this.provider = providerName;
     }
 
     public Providers getProvider() {
@@ -40,15 +40,15 @@ public class EmailServiceProvider {
         this.provider = provider;
     }
 
-    public HttpStatus send(MyEmail email, Providers selectedProvider) throws UnsupportedEncodingException {
+    public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
         //Providers selectedProvider = this.getProvider();
         HttpStatus status = null;
 
-        if (selectedProvider == Providers.MAILGUN) {
+        if (provider == Providers.MAILGUN) {
             status = SendMessageViaMAILGUN(email);
         }
 
-        if (selectedProvider == Providers.ELASTICEMAIL) {
+        if (provider == Providers.ELASTICEMAIL) {
             status = SendMessageViaElasticEmail(email);
         }
 

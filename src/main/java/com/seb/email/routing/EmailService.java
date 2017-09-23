@@ -30,11 +30,11 @@ public class EmailService {
     /* ElasticEmail */
     private final String ELASTICEMAIL_URL = "https://api.elasticemail.com/v2/email/send";
     private final String ELASTICEMAIL_API_KEY =
-            Keys.ELASTICEMAIL_API_KEY_RAW.substring(0, 8) +
-                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(9, 13) +
-                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(14, 18) +
-                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(19, 23) +
-                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(24);
+            Keys.ELASTICEMAIL_API_KEY_RAW.substring(0, 8) + "-" +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(8,12) + "-" +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(12,16) + "-" +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(16,20) + "-" +
+                    Keys.ELASTICEMAIL_API_KEY_RAW.substring(20);
 
     private final String ELASTICEMAIL_TOKEN = Base64.getEncoder().encodeToString(ELASTICEMAIL_API_KEY.getBytes());
 

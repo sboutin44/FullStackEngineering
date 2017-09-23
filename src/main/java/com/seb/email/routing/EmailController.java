@@ -2,8 +2,11 @@ package com.seb.email.routing;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
+
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 @RestController
 public class EmailController {
@@ -13,12 +16,30 @@ public class EmailController {
         /* Map a JSON file sent to the </email> endpoint with the Email instance myEmail.
          *
          */
+        HttpStatus httpStatus = null;
+
+        for (EmailServiceProvider.Providers aProvider : EmailServiceProvider.Providers.values()) {
+            EmailServiceProvider provider = new EmailServiceProvider(aProvider);
+            httpStatus = provider.send(myEmail);
+
+            if ('5' == httpStatus.toString().charAt(0)) { // Check if we have a 5xx Server Error
+                continue; // We try the next email provider in our enumeration
+            } else {
+                break;
+            }
+        }
+//            try {
+//                httpStatus = provider.send(myEmail);
+//                break;
+//            } catch (HttpStatusCodeException e) {
+//                if ('5' == e.getStatusCode().toString().charAt(0)) { // Check if we have a 5xx Server Error
+//                    continue; // We try the next email provider in our enumeration
+//                }
+//                break;
+//            }
 
 
-        EmailServiceProvider provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
-        HttpStatus status = provider.send(myEmail);
-
-        //Send the response to the HTTP Client
-        return status;
+        //Send the statuto the HTTP Client
+        return httpStatus;
     }
 }

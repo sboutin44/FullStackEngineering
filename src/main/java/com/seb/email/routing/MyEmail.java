@@ -5,9 +5,22 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class MyEmail {
+    /* A class modelizing the content of a Json email for the exercice.
+     *
+     * An instance of MyEmail is created with the "email" method when a POST
+     * request is sent to the "/email" endpoint. The following flow applies:
+     *
+     *      1)  A POST request is send to the /email endpoint
+     *      2)  @RequestMapping maps the /email endpoint to the email method
+     *      3)  @RequestBody maps the Json provided in the request into the "email" method
+     *          parameter, and creates an instance of MyEmail. @Valid makes sure the Json is
+     *          valid. During the creation of the MyEmail instance, the fields are parsed
+     *          with those provided in the Json.
+     *      3)  Validation of the email fields are done with annotations above them.
+     */
 
     @NotBlank
-    @org.hibernate.validator.constraints.Email
+    @org.hibernate.validator.constraints.Email      // Check if the address is really an address
     private String to;
 
     @NotBlank
@@ -26,11 +39,19 @@ public class MyEmail {
     private String subject;
 
     @NotBlank
-    @JsonDeserialize(using = HtmlJsonDeserializer.class)
+    @JsonDeserialize(using = HtmlJsonDeserializer.class) // Parse the html body in a plaintext body
     private String body;
 
     public String getTo() {
         return to;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getToName() {

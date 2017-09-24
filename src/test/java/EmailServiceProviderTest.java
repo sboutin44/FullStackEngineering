@@ -54,14 +54,33 @@ public class EmailServiceProviderTest extends TestCase {
     public void testSendMessageViaElasticEmail() throws UnsupportedEncodingException {
 
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
+        provider.setUrl(provider.URL_ELASTICEMAIL);
         assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
     }
 
     public void testSendMessageViaMAILGUN() {
 
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
+        provider.setUrl(provider.URL_MAILGUN);
         assertEquals(HttpStatus.OK, provider.SendMessageViaMAILGUN(email));
 
     }
+
+
+/*
+    public void testSendMessageViaElasticEmail_wrongStatus() throws UnsupportedEncodingException {
+
+        provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
+        assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
+    }
+
+    public void testSendMessageViaMAILGUN_wrongStatus() {
+
+        //provider.setUrl(local_fake_url);
+        provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
+        assertEquals(HttpStatus.OK, provider.SendMessageViaMAILGUN(email));
+
+    }
+*/
 
 }

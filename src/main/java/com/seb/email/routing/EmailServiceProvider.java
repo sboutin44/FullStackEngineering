@@ -1,7 +1,6 @@
 package com.seb.email.routing;
 
 import org.springframework.http.*;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -25,8 +24,8 @@ public class EmailServiceProvider {
     public String apiKey;
     public String token;
     public String url;
-    public String URL_MAILGUN = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
-    public String URL_ELASTICEMAIL = "https://api.elasticemail.com/v2/email/send";
+    public final String URL_MAILGUN = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
+    public final String URL_ELASTICEMAIL = "https://api.elasticemail.com/v2/email/send";
 
     // Constructor
     public EmailServiceProvider(Providers providerName) {
@@ -68,11 +67,13 @@ public class EmailServiceProvider {
     public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
         HttpStatus status = null;
 
-        if (provider == Providers.MAILGUN) {
+        if (this.provider == Providers.MAILGUN) {
+            this.url = URL_MAILGUN;
             status = SendMessageViaMAILGUN(email);
         }
 
-        if (provider == Providers.ELASTICEMAIL) {
+        if (this.provider == Providers.ELASTICEMAIL) {
+            this.url = URL_ELASTICEMAIL;
             status = SendMessageViaElasticEmail(email);
         }
 
@@ -85,8 +86,6 @@ public class EmailServiceProvider {
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(12, 16) + "-" +
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(16, 20) + "-" +
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(20);
-
-        url = URL_ELASTICEMAIL;
 
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -105,7 +104,7 @@ public class EmailServiceProvider {
         HttpEntity<String> request = new HttpEntity<>(content, httpHeaders);
 
         // Send the request to email service provider
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(this.url, request, String.class);
         HttpStatus httpStatus = response.getStatusCode();
         return httpStatus;
     }
@@ -114,7 +113,7 @@ public class EmailServiceProvider {
         username = "api";
         apiKey = "key-" + Keys.MAILGUN_API_KEY_RAW;
         token = Base64.getEncoder().encodeToString((username + ":" + apiKey).getBytes());
-        url = URL_MAILGUN;
+        //url = URL_MAILGUN;
 
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -133,7 +132,7 @@ public class EmailServiceProvider {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, httpHeaders);
 
         /* Send the request to email service provider */
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(this.url, request, String.class);
         HttpStatus httpStatus = response.getStatusCode();
         return httpStatus;
     }

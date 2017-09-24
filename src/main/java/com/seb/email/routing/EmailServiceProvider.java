@@ -19,12 +19,14 @@ public class EmailServiceProvider {
     }
 
     private Providers provider;
+    private RestTemplate restTemplate;
 
     public String username;
     public String apiKey;
     public String token;
     public String url;
-    private RestTemplate restTemplate;
+    public String URL_MAILGUN = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
+    public String URL_ELASTICEMAIL = "https://api.elasticemail.com/v2/email/send";
 
     // Constructor
     public EmailServiceProvider(Providers providerName) {
@@ -84,7 +86,7 @@ public class EmailServiceProvider {
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(16, 20) + "-" +
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(20);
 
-        url = "https://api.elasticemail.com/v2/email/send";
+        url = URL_ELASTICEMAIL;
 
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -112,7 +114,7 @@ public class EmailServiceProvider {
         username = "api";
         apiKey = "key-" + Keys.MAILGUN_API_KEY_RAW;
         token = Base64.getEncoder().encodeToString((username + ":" + apiKey).getBytes());
-        url = "https://api.mailgun.net/v3/sandbox572e948ff4c242c49dfb2c627fef1b23.mailgun.org/messages";
+        url = URL_MAILGUN;
 
         restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();

@@ -33,7 +33,7 @@ public class EmailServiceProviderTest extends TestCase {
 
         // html parsing
         Document docBody = Jsoup.parse(jsonObject.getString("body")); // Convert the html as a plaintext Document object
-        String emailBody =  docBody.text();
+        String emailBody = docBody.text();
 
         email.setTo(jsonObject.getString("to"));
         email.setToName(jsonObject.getString("to_name"));
@@ -42,6 +42,8 @@ public class EmailServiceProviderTest extends TestCase {
         email.setSubject(jsonObject.getString("subject"));
         email.setBody(emailBody);
 
+        // To identify the email in my mailbox
+        email.setSubject("Tests");
     }
 
     protected void tearDown() throws Exception {
@@ -51,20 +53,14 @@ public class EmailServiceProviderTest extends TestCase {
 
     public void testSendMessageViaElasticEmail() throws UnsupportedEncodingException {
 
-        // To identify the email in my mailbox
-        //email.setSubject("Tests");
-
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
-        assertEquals(HttpStatus.OK,provider.SendMessageViaElasticEmail(email));
+        assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
     }
 
     public void testSendMessageViaMAILGUN() {
 
-        // To identify the email in my mailbox
-        //email.setSubject("Tests");
-
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
-        assertEquals(HttpStatus.OK,provider.SendMessageViaMAILGUN(email));
+        assertEquals(HttpStatus.OK, provider.SendMessageViaMAILGUN(email));
 
     }
 

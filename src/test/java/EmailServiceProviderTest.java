@@ -1,4 +1,5 @@
 import com.seb.email.routing.service.EmailServiceProvider;
+import com.seb.email.routing.service.FakeService;
 import com.seb.email.routing.service.MyEmail;
 import junit.framework.TestCase;
 import org.json.JSONObject;
@@ -21,6 +22,9 @@ public class EmailServiceProviderTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+
+        // Create a fake Http service
+        FakeService fakeService  = new FakeService();
 
         // Get a test json from JSON_FILE_DIRECTORY
         Path pathToJson = Paths.get(JSON_FILE_DIRECTORY + JSON_FILE_TESTEMAIL);
@@ -67,7 +71,7 @@ public class EmailServiceProviderTest extends TestCase {
 //    public void testSendMessageViaElasticEmail_status() throws UnsupportedEncodingException {
 //
 //        provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
-//        provider.setUrl("http://localhost:8080/test");
+//        provider.setUrl("http://localhost:8080/fakeservice");
 //        HttpStatus s = provider.SendMessageViaElasticEmail(email);
 //        assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
 //    }

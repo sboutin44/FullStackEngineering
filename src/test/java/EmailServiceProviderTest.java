@@ -13,21 +13,28 @@ public class EmailServiceProviderTest extends TestCase {
     private String JSON_FILE_DIRECTORY = "src/test/json/";
     private String JSON_FILE_TESTEMAIL = "testEmail.json";
 
-    protected void setUp () throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
 
         // Get a test json from JSON_FILE_DIRECTORY
         Path pathToJson = Paths.get(JSON_FILE_DIRECTORY + JSON_FILE_TESTEMAIL);
         String jsonString = new String(Files.readAllBytes(pathToJson), StandardCharsets.UTF_8);
         JSONObject jsonObject = new JSONObject(jsonString);
-        //MyEmail email1 = new MyEmail();
+        MyEmail email = new MyEmail();
+
+        email.setTo(jsonObject.getString("to"));
+        email.setToName(jsonObject.getString("to_name"));
+        email.setFrom(jsonObject.getString("from"));
+        email.setFromName(jsonObject.getString("from_name"));
+        email.setSubject(jsonObject.getString("subject"));
+        email.setBody(jsonObject.getString("body"));
     }
 
-    public void SendMessageViaElasticEmail (){
+    public void SendMessageViaElasticEmail() {
 
     }
 
-    public void testSendMessageViaMAILGUN (){
+    public void testSendMessageViaMAILGUN() {
         System.out.println("test");
     }
 

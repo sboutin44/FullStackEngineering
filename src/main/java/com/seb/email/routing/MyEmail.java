@@ -3,6 +3,8 @@ package com.seb.email.routing;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.validator.constraints.NotBlank;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MyEmail {
     /* A class modelizing the content of a Json email for the exercice.
@@ -42,7 +44,32 @@ public class MyEmail {
     @JsonDeserialize(using = HtmlJsonDeserializer.class) // Parse the html body in a plaintext body
     private String body;
 
+    public void setToName(String toName) {
+        this.toName = toName;
+    }
 
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void MyEmailTestConstructor (JSONObject json) throws JSONException {
+        /* Constructor used for test cases. */
+
+        this.to = json.getString("to");
+        this.toName = json.getString("to_name");
+        this.from = json.getString("from");
+        this.fromName = json.getString("from_name");
+        this.subject = json.getString("subject");
+        this.body = json.getString("body");
+    }
 
     public String getTo() {
         return to;

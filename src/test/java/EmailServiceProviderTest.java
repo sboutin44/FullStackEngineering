@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.util.JsonParserSequence;
 import com.seb.email.routing.EmailServiceProvider;
 import com.seb.email.routing.MyEmail;
+import junit.framework.*;
 import junit.framework.TestCase;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -67,20 +68,13 @@ public class EmailServiceProviderTest extends TestCase {
     }
 
 
-/*
-    public void testSendMessageViaElasticEmail_wrongStatus() throws UnsupportedEncodingException {
+//    public void testSendMessageViaElasticEmail_status() throws UnsupportedEncodingException {
+//
+//        provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
+//        provider.setUrl("http://localhost:8080/test");
+//        HttpStatus s = provider.SendMessageViaElasticEmail(email);
+//        assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
+//    }
 
-        provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
-        assertEquals(HttpStatus.OK, provider.SendMessageViaElasticEmail(email));
-    }
-
-    public void testSendMessageViaMAILGUN_wrongStatus() {
-
-        //provider.setUrl(local_fake_url);
-        provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
-        assertEquals(HttpStatus.OK, provider.SendMessageViaMAILGUN(email));
-
-    }
-*/
 
 }

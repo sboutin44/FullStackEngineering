@@ -60,17 +60,6 @@ public class MyEmail {
         this.subject = subject;
     }
 
-    public void MyEmailTestConstructor (JSONObject json) throws JSONException {
-        /* Constructor used for test cases. */
-
-        this.to = json.getString("to");
-        this.toName = json.getString("to_name");
-        this.from = json.getString("from");
-        this.fromName = json.getString("from_name");
-        this.subject = json.getString("subject");
-        this.body = json.getString("body");
-    }
-
     public String getTo() {
         return to;
     }

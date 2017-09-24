@@ -19,7 +19,6 @@ public class EmailServiceProviderTest extends TestCase {
     private EmailServiceProvider provider;
 
     protected void setUp() throws Exception {
-        super.setUp();
 
         // Get a test json from JSON_FILE_DIRECTORY
         Path pathToJson = Paths.get(JSON_FILE_DIRECTORY + JSON_FILE_TESTEMAIL);
@@ -33,14 +32,25 @@ public class EmailServiceProviderTest extends TestCase {
         email.setFromName(jsonObject.getString("from_name"));
         email.setSubject(jsonObject.getString("subject"));
         email.setBody(jsonObject.getString("body"));
+
     }
 
     public void testSendMessageViaElasticEmail() throws UnsupportedEncodingException {
+
+        // To identify the email in my mailbox
+        email.setSubject("Tests");
+
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
         assertEquals(HttpStatus.OK,provider.SendMessageViaElasticEmail(email));
     }
 
     public void testSendMessageViaMAILGUN() {
+
+        // To identify the email in my mailbox
+        email.setSubject("Tests");
+
+        provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
+        assertEquals(HttpStatus.OK,provider.SendMessageViaMAILGUN(email));
 
     }
 

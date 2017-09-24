@@ -18,7 +18,6 @@ public class EmailServiceProvider {
         ELASTICEMAIL
     }
 
-    // Name of an instance of the Provider class
     private Providers provider;
 
     public String username;
@@ -39,21 +38,6 @@ public class EmailServiceProvider {
     public void setProvider(Providers provider) {
         this.provider = provider;
     }
-
-    public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
-        HttpStatus status = null;
-
-        if (provider == Providers.MAILGUN) {
-            status = SendMessageViaMAILGUN(email);
-        }
-
-        if (provider == Providers.ELASTICEMAIL) {
-            status = SendMessageViaElasticEmail(email);
-        }
-
-        return status;
-    }
-
 
     public void setApiKey(String api_key) {
         this.apiKey = api_key;
@@ -77,6 +61,20 @@ public class EmailServiceProvider {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
+        HttpStatus status = null;
+
+        if (provider == Providers.MAILGUN) {
+            status = SendMessageViaMAILGUN(email);
+        }
+
+        if (provider == Providers.ELASTICEMAIL) {
+            status = SendMessageViaElasticEmail(email);
+        }
+
+        return status;
     }
 
     public HttpStatus SendMessageViaElasticEmail(MyEmail email) throws UnsupportedEncodingException {
@@ -110,7 +108,7 @@ public class EmailServiceProvider {
         return httpStatus;
     }
 
-    public HttpStatus SendMessageViaMAILGUN(MyEmail email)  {
+    public HttpStatus SendMessageViaMAILGUN(MyEmail email) {
         username = "api";
         apiKey = "key-" + Keys.MAILGUN_API_KEY_RAW;
         token = Base64.getEncoder().encodeToString((username + ":" + apiKey).getBytes());

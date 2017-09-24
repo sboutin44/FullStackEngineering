@@ -1,8 +1,11 @@
+import com.seb.email.routing.EmailServiceProvider;
 import com.seb.email.routing.MyEmail;
 import junit.framework.TestCase;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 
 import java.io.FileReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +15,8 @@ public class EmailServiceProviderTest extends TestCase {
 
     private String JSON_FILE_DIRECTORY = "src/test/json/";
     private String JSON_FILE_TESTEMAIL = "testEmail.json";
+    private MyEmail email;
+    private EmailServiceProvider provider;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -20,7 +25,7 @@ public class EmailServiceProviderTest extends TestCase {
         Path pathToJson = Paths.get(JSON_FILE_DIRECTORY + JSON_FILE_TESTEMAIL);
         String jsonString = new String(Files.readAllBytes(pathToJson), StandardCharsets.UTF_8);
         JSONObject jsonObject = new JSONObject(jsonString);
-        MyEmail email = new MyEmail();
+        email = new MyEmail();
 
         email.setTo(jsonObject.getString("to"));
         email.setToName(jsonObject.getString("to_name"));
@@ -30,12 +35,13 @@ public class EmailServiceProviderTest extends TestCase {
         email.setBody(jsonObject.getString("body"));
     }
 
-    public void SendMessageViaElasticEmail() {
-
+    public void testSendMessageViaElasticEmail() throws UnsupportedEncodingException {
+        provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
+        assertEquals(HttpStatus.OK,provider.SendMessageViaElasticEmail(email));
     }
 
     public void testSendMessageViaMAILGUN() {
-        System.out.println("test");
+
     }
 
 }

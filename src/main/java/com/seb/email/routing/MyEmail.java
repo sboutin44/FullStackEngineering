@@ -42,6 +42,8 @@ public class MyEmail {
     @JsonDeserialize(using = HtmlJsonDeserializer.class) // Parse the html body in a plaintext body
     private String body;
 
+
+
     public String getTo() {
         return to;
     }

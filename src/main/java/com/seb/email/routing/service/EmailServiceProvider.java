@@ -1,4 +1,4 @@
-package com.seb.email.routing;
+package com.seb.email.routing.service;
 
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;

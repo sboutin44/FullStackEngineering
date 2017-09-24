@@ -1,4 +1,4 @@
-package com.seb.email.routing;
+package com.seb.email.routing.service;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

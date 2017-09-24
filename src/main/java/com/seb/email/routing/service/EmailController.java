@@ -1,12 +1,10 @@
-package com.seb.email.routing;
+package com.seb.email.routing.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 @RestController
 public class EmailController {

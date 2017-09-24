@@ -1,10 +1,8 @@
-package com.seb.email.routing;
+package com.seb.email.routing.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.validator.constraints.NotBlank;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MyEmail {
     /* A class modelizing the content of a Json email for the exercice.

@@ -1,15 +1,11 @@
-import com.fasterxml.jackson.core.util.JsonParserSequence;
-import com.seb.email.routing.EmailServiceProvider;
-import com.seb.email.routing.MyEmail;
-import junit.framework.*;
+import com.seb.email.routing.service.EmailServiceProvider;
+import com.seb.email.routing.service.MyEmail;
 import junit.framework.TestCase;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.jackson.core.JsonParser;
 
-import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

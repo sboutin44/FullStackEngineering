@@ -1,12 +1,10 @@
-package com.seb.email.routing;
+package com.seb.email.routing.service;
 
-import org.jsoup.HttpStatusException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.io.*;
 import java.net.URL;

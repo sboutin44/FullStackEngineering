@@ -1,12 +1,12 @@
 
-#Full Stack Engineering Exercise
+# Full Stack Engineering Exercise
 
 Hi Brightwheel engineers, 
 
 Here you will find my app answering a downtime 
 problem during an email service provider outage.
 
-##Launch the app:
+## Launch the app:
 
 To see how it works you need to:
 

@@ -13,6 +13,8 @@ import javax.xml.ws.WebEndpoint;
 public class Application {
 
     public static void main(String[] args) {
+        /* Main entry point for a spring boot application */
+
         SpringApplication.run(Application.class, args);
     }
 

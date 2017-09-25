@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 
 @RestController
 public class EmailController {
+    /*
+     *
+     */
 
     @RequestMapping(value = "/email", method = RequestMethod.POST)
     public HttpStatus email(@RequestBody @Valid MyEmail myEmail) throws UnsupportedEncodingException {

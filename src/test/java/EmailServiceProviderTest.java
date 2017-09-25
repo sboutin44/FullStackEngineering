@@ -14,6 +14,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class EmailServiceProviderTest extends TestCase {
+    /* Tests for the class EmailServiceProvider.
+     *
+     * Tests development are currently on-going, at this point I use a test method
+     * which uses the real Mailgun and ElasticEmail servers. I will add soon
+     * methods which set the "url" to a local endpoint which simulate the real
+     * email provider responses and the exceptions which can occur.
+     */
 
     private String JSON_FILE_DIRECTORY = "src/test/json/";
     private String JSON_FILE_TESTEMAIL = "testEmail.json";
@@ -53,6 +60,7 @@ public class EmailServiceProviderTest extends TestCase {
     }
 
     public void testSendMessageViaElasticEmail() throws UnsupportedEncodingException {
+        /* Test the sending function for ElasticEmail through the real url */
 
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.ELASTICEMAIL);
         provider.setUrl(provider.URL_ELASTICEMAIL);
@@ -60,6 +68,7 @@ public class EmailServiceProviderTest extends TestCase {
     }
 
     public void testSendMessageViaMAILGUN() {
+        /* Test the sending function for Mailgun through the real url */
 
         provider = new EmailServiceProvider(EmailServiceProvider.Providers.MAILGUN);
         provider.setUrl(provider.URL_MAILGUN);

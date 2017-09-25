@@ -12,6 +12,13 @@ public class FakeService {
 
     @GetMapping(value = {""})
     public HttpStatus fakeservice() {
+        /* Simulate a service provider endpoint.
+         *
+         * Used in test, by replacing the url of real email service providers
+         * by http://localhost:8080/fakeservice.
+         */
+
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("fakeservice");
         HttpStatus status = HttpStatus.OK;

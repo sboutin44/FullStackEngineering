@@ -12,8 +12,10 @@ public class HtmlJsonDeserializer extends JsonDeserializer<String> {
 
     @Override
     public String deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
-        String html = jp.getText(); // Parse the json as a string,
-        Document doc = Jsoup.parse(html); // Convert the html as a plaintext Document object
+        /* Give an pretty-printing feature to jackson's JsonParser. */
+
+        String html = jp.getText();         // Parse the json as a string,
+        Document doc = Jsoup.parse(html);   // Convert the html as a plaintext Document object
         return doc.text();
     }
 }

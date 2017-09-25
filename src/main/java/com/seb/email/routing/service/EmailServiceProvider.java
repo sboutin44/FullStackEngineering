@@ -10,6 +10,14 @@ import java.net.URLEncoder;
 import java.util.Base64;
 
 public class EmailServiceProvider {
+    /* Class representing an email service provider, eg. Mailgun or Elasticemail.
+     *
+     * This class provides a global send method and "sub" send methods for each provider
+     * supported by this program. When an instance is created, a provider is chosen among
+     * an enumeration of all supported providers. Since all email providers don't provide
+     * exactly the same POST request format in their API documentations, a special method
+     * is proposed for each one, then called by the global send method.
+     */
 
     // List of supported providers
     public enum Providers {
@@ -29,6 +37,8 @@ public class EmailServiceProvider {
 
     // Constructor
     public EmailServiceProvider(Providers providerName) {
+        /* Parameter used when calling the send function */
+
         this.provider = providerName;
     }
 
@@ -65,6 +75,8 @@ public class EmailServiceProvider {
     }
 
     public HttpStatus send(MyEmail email) throws UnsupportedEncodingException {
+        /* Global send function */
+
         HttpStatus status = null;
 
         if (this.provider == Providers.MAILGUN) {
@@ -81,6 +93,13 @@ public class EmailServiceProvider {
     }
 
     public HttpStatus SendMessageViaElasticEmail(MyEmail email) throws UnsupportedEncodingException {
+        /* Send a message through a POST request to ElasticEmail
+         *
+         * NOTE: The url is not a parameter, but it can be set to the 'localhost' url by its own setter
+         * on an EmailSerciceProvider instance so that one can test this function without sending emails to
+         * ElasticEmail servers.
+         */
+
         apiKey = Keys.ELASTICEMAIL_API_KEY_RAW.substring(0, 8) + "-" +
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(8, 12) + "-" +
                 Keys.ELASTICEMAIL_API_KEY_RAW.substring(12, 16) + "-" +
@@ -110,6 +129,13 @@ public class EmailServiceProvider {
     }
 
     public HttpStatus SendMessageViaMAILGUN(MyEmail email) {
+        /* Send a message through a POST request to ElasticEmail
+         *
+         * NOTE: The url is not a parameter, but it can be set to the 'localhost' url by its own setter
+         * on an EmailSerciceProvider instance so that one can test this function without sending emails to
+         * Mailgun servers.
+         */
+
         username = "api";
         apiKey = "key-" + Keys.MAILGUN_API_KEY_RAW;
         token = Base64.getEncoder().encodeToString((username + ":" + apiKey).getBytes());

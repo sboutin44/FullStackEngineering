@@ -8,7 +8,7 @@ import java.io.UnsupportedEncodingException;
 
 @RestController
 public class EmailController {
-    /*
+    /* Class handling POST requests.
      *
      */
 
@@ -29,16 +29,6 @@ public class EmailController {
                 break;
             }
         }
-//            try {
-//                httpStatus = provider.send(myEmail);
-//                break;
-//            } catch (HttpStatusCodeException e) {
-//                if ('5' == e.getStatusCode().toString().charAt(0)) { // Check if we have a 5xx Server Error
-//                    continue; // We try the next email provider in our enumeration
-//                }
-//                break;
-//            }
-
 
         //Send the statuto the HTTP Client
         return httpStatus;

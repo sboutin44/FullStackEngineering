@@ -10,11 +10,14 @@ problem during an email service provider outage.
 
 To see how it works you need to:
 
-1. Download the code.
-
-2. Install the environment:
+1. Install the environment:
     - JDK 1.8
     - Gradle 2.3+
+
+2. Download the code.
+
+3. Insert the keys:
+    - Put the API key values file `Keys.java` 
 
 3. Build the code:
     - execute in a terminal `gradle build`

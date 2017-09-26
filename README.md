@@ -31,7 +31,7 @@ To see how it works you need to:
 
 
 All frameworks and libraries are downloaded thanks to the build.gradle file. The main framework I used to build
-the HTTP service is Spring Boot. Here is a list of all the frameworks presents in this project:
+the HTTP service is Spring Boot. Here is a list of all the frameworks included in this project:
 
  - Java Platform, Standard Edition 8
  - Spring Boot: for the main application running the HTTP service.
